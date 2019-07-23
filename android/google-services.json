@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "305791931927",
+    "firebase_url": "https://human-resources-f9218.firebaseio.com",
+    "project_id": "human-resources-f9218",
+    "storage_bucket": "human-resources-f9218.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305791931927:android:35d1c4e24e8a44d3",
+        "android_client_info": {
+          "package_name": "com.example.humanresources"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305791931927-njrumrg1d8ragb3pork2qtmmkcimahcs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmi05GpNWO1dXsx5G4o-CC8NsA8iNn2oo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305791931927-njrumrg1d8ragb3pork2qtmmkcimahcs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
