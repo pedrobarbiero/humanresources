@@ -17,10 +17,11 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  intl: ^0.15.8
   cloud_firestore: ^0.12.3
   dio: ^2.1.13
   rxdart: ^0.22.0
-  bloc_pattern: ^2.2.3
+  bloc_pattern: ^2.2.3  
   flutter:
     sdk: flutter
 
