@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
                   return ListTile(
                     title: Text(person.name),
                     subtitle: Text(_dateFormat.format(person.birthDate)),
+                    trailing: Icon(Icons.keyboard_arrow_right),
                     onTap: () {
                       Navigator.push(
                         context,
