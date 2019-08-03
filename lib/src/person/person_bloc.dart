@@ -1,11 +1,29 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:humanresources/src/app_module.dart';
+import 'package:humanresources/src/models/person_model.dart';
 import 'package:humanresources/src/person/person_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PersonBloc extends BlocBase {
+  String _name;
+  DateTime _birthDate;
+  bool _active;
+  String _documentId;
+
+  PersonBloc() {
+    _birthDateController.listen((value) => _birthDate = value);
+    _nameController.listen((value) => _name = value);
+    _activeController.listen((value) => _active = value);
+  }
+
   var _repository = AppModule.to.getDependency<PersonRepository>();
-  get people => _repository.people;
+
+  void setPerson(Person person) {
+    _documentId = person.documentId();
+    setName(person.name);
+    setActive(person.active);
+    setBirthDate(person.birthDate);    
+  }
 
   var _birthDateController = BehaviorSubject<DateTime>();
   Stream<DateTime> get outBirthDate => _birthDateController.stream;
@@ -16,16 +34,20 @@ class PersonBloc extends BlocBase {
   var _activeController = BehaviorSubject<bool>();
   Stream<bool> get outActive => _activeController.stream;
 
-  void setBirthDate(DateTime value) {
-    _birthDateController.sink.add(value);
-  }
+  void setBirthDate(DateTime value) => _birthDateController.sink.add(value);
 
-  void setActive(bool value) {
-    _activeController.sink.add(value);
-  }
+  void setActive(bool value) => _activeController.sink.add(value);
 
-  void setName(String value) {
-    _nameController.sink.add(value);
+  void setName(String value) => _nameController.sink.add(value);
+
+  void update() {
+    var person = Person()
+    ..name = _name
+    ..birthDate = _birthDate
+    ..active = _active;    
+
+     _repository.update(_documentId, person);
+
   }
 
   @override

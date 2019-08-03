@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:humanresources/src/home/home_bloc.dart';
 import 'package:humanresources/src/models/person_model.dart';
-import 'package:humanresources/src/person/person_bloc.dart';
 import 'package:humanresources/src/person/person_page.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
-  var _bloc = PersonBloc();
-  var _dateFormat = DateFormat("dd/MM/yyyy");
+  final _bloc = HomeBloc();
+  final _dateFormat = DateFormat("dd/MM/yyyy");
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +23,23 @@ class HomePage extends StatelessWidget {
             return Container(
               child: ListView(
                 children: snapshot.data.map((person) {
-                  return ListTile(
-                    title: Text(person.name),
-                    subtitle: Text(_dateFormat.format(person.birthDate)),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => PersonPage()),
-                      );
+                  return Dismissible(
+                    key: Key(person.documentId()),
+                    onDismissed: (direction){
+                      _bloc.delete(person.documentId());
                     },
+                    child: ListTile(
+                      title: Text(person.name),
+                      subtitle: Text(_dateFormat.format(person.birthDate)),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PersonPage(person)),
+                        );
+                      },
+                    ),
                   );
                 }).toList(),
               ),

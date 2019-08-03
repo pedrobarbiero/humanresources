@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:humanresources/src/models/person_model.dart';
 import 'package:humanresources/src/person/person_bloc.dart';
 import 'package:intl/intl.dart';
 
-class PersonPage extends StatelessWidget {
-  var _bloc = PersonBloc();
-  var _dateFormat = DateFormat("dd/MM/yyyy");
-  var _nameController = TextEditingController();
+class PersonPage extends StatefulWidget {
+  PersonPage(this.person);
+
+  final Person person;
+
+  @override
+  _PersonPageState createState() => _PersonPageState();
+}
+
+class _PersonPageState extends State<PersonPage> {
+  final _dateFormat = DateFormat("dd/MM/yyyy");
+  TextEditingController _nameController;
+  final _bloc = PersonBloc();
+
+  @override
+  void initState() {
+    _bloc.setPerson(widget.person);
+    _nameController = TextEditingController(text: widget.person.name);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +42,12 @@ class PersonPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: <Widget>[
-              StreamBuilder(
-                stream: _bloc.outName,
-                initialData: "",
-                builder: (context, snapshot) {
-                  return Container(
-                    child: TextField(
-                      controller: _nameController,
-                      onChanged: (value) {
-                        _bloc.setName(value);
-                      },
-                      decoration: InputDecoration(labelText: "Nome"),
-                    ),
-                  );
-                },
+              Container(
+                child: TextField(
+                  decoration: InputDecoration(labelText: "Nome"),
+                  controller: _nameController,
+                  onChanged: _bloc.setName,
+                ),
               ),
               Container(height: 20),
               StreamBuilder<DateTime>(
@@ -73,15 +88,14 @@ class PersonPage extends StatelessWidget {
                       Center(
                         child: Switch(
                           value: snapshot.data,
-                          onChanged: (value) {
-                            _bloc.setActive(value);
-                          },
+                          onChanged: _bloc.setActive,
                         ),
                       ),
                     ],
                   );
                 },
               ),
+              RaisedButton(child: Text("Salvar"), onPressed: _bloc.update),
             ],
           ),
         ),

@@ -5,4 +5,5 @@ abstract class BaseModel {
   
   BaseModel.fromMap(DocumentSnapshot document);
   toMap();  
+  String documentId();    
 }
