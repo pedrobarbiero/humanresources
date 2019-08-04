@@ -14,6 +14,20 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Human Resources"),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          var person = Person()
+            ..active = true
+            ..birthDate = DateTime.now()
+            ..name = "";
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PersonPage(person)),
+          );
+        },
+      ),
       body: Container(
         child: StreamBuilder<List<Person>>(
           stream: _bloc.people,
@@ -25,7 +39,7 @@ class HomePage extends StatelessWidget {
                 children: snapshot.data.map((person) {
                   return Dismissible(
                     key: Key(person.documentId()),
-                    onDismissed: (direction){
+                    onDismissed: (direction) {
                       _bloc.delete(person.documentId());
                     },
                     child: ListTile(

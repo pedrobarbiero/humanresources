@@ -95,7 +95,13 @@ class _PersonPageState extends State<PersonPage> {
                   );
                 },
               ),
-              RaisedButton(child: Text("Salvar"), onPressed: _bloc.update),
+              RaisedButton(
+                  child: Text("Salvar"),
+                  onPressed: () {
+                    if (_bloc.insertOrUpdate()) {
+                      Navigator.pop(context);
+                    }
+                  }),
             ],
           ),
         ),

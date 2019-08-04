@@ -22,7 +22,7 @@ class PersonBloc extends BlocBase {
     _documentId = person.documentId();
     setName(person.name);
     setActive(person.active);
-    setBirthDate(person.birthDate);    
+    setBirthDate(person.birthDate);
   }
 
   var _birthDateController = BehaviorSubject<DateTime>();
@@ -40,14 +40,19 @@ class PersonBloc extends BlocBase {
 
   void setName(String value) => _nameController.sink.add(value);
 
-  void update() {
+  bool insertOrUpdate() {
     var person = Person()
-    ..name = _name
-    ..birthDate = _birthDate
-    ..active = _active;    
+      ..name = _name
+      ..birthDate = _birthDate
+      ..active = _active;
 
-     _repository.update(_documentId, person);
+    if (_documentId?.isEmpty ?? true) {
+      _repository.add(person);
+    } else {
+      _repository.update(_documentId, person);
+    }
 
+    return true;
   }
 
   @override

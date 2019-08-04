@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:humanresources/src/shared/base_model.dart';
 
 class Person extends BaseModel {
-  String _documentId;  
+  String _documentId;
   String name;
   bool active;
   DateTime birthDate;
@@ -10,7 +10,7 @@ class Person extends BaseModel {
   Person();
 
   Person.fromMap(DocumentSnapshot document) {
-    _documentId = document.documentID;    
+    _documentId = document.documentID;
 
     this.name = document.data["name"];
     this.active = document.data["active"] ?? false;
